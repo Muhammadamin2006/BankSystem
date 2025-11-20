@@ -1,4 +1,4 @@
-namespace Bank.Domain.Entities;
+namespace BankSystem.Domain.Entities.Currency;
 
 public class Currency
 {
@@ -7,5 +7,5 @@ public class Currency
     public string Country { get; set; }
 
     public bool IsActive { get; set; } = true;
-    public DateTime UpdatedDate { get; set; } = DateTime.Now; 
+    public DateTime UpdatedDate { get; set; } = DateTime.Now;   
 }
