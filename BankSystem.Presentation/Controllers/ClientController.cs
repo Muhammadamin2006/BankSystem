@@ -1,11 +1,14 @@
 using AutoMapper;
 using BankSystem.Application.Dtos;
 using BankSystem.Application.IService;
-using BankSystem.Web.RequestModels;
-using BankSystem.Web.ViewModels;
+using BankSystem.Presentation.RequestModels;
+using BankSystem.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankSystem.Web.Controllers;
+namespace BankSystem.Presentation.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
 
 public class ClientController : ControllerBase
 {
@@ -17,9 +20,8 @@ public class ClientController : ControllerBase
         _clientService = clientService;
         _mapper = mapper;
     }
-
-
-    [HttpPost("{createClientrequest}")]
+    
+    [HttpPost]
     public async Task<ActionResult<ResponseCreateClient>> CreateClient(RequestCreateClient createClientrequest)
     {
         var map = _mapper.Map<CreateClientDto>(createClientrequest);
@@ -28,10 +30,11 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ResponseCreateClient>> GetClientById(Guid id)
+    public async Task<ActionResult<ResponseCreateClient>> GetClientById([FromRoute] Guid id)
     {
         var getclientbyid = await _clientService.GetClientByIdAsync(id);
         return Ok(_mapper.Map<ResponseCreateClient>(getclientbyid));
     }
+    
     
 }
