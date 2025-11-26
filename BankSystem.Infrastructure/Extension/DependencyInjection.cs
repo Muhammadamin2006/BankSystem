@@ -1,3 +1,4 @@
+using BankSystem.Application.Extension;
 using BankSystem.Application.IRepository;
 using BankSystem.Application.IService;
 using BankSystem.Application.Service;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped(typeof(IGenericRepository<>),  typeof(GenericRepository<>));
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IClientService, ClientService>();
+        services.AddScoped<IClientCsvService,  ClientCsvService>();
         
         
         

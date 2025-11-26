@@ -1,3 +1,4 @@
+using BankSystem.Application.Dtos;
 using BankSystem.Application.IRepository;
 using BankSystem.Domain.Entities;
 using BankSystem.Infrastructure.DbContext;
@@ -39,9 +40,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<List<TEntity>> GetAllAsync()
+    public async Task<IEnumerable<Client>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        return (IEnumerable<Client>)await _dbSet.ToListAsync();
     }
 
     public async Task SaveChangesAsync()

@@ -1,8 +1,11 @@
+using System.Reflection;
 using BankSystem.Application.Extension;
 using BankSystem.Application.Mappers;
 using BankSystem.Infrastructure.Extension;
+using BankSystem.Web.Middleware;
+using FluentValidation;
 
-namespace BankSystem.Presentation;
+namespace BankSystem.Web;
 
 public class Program
 {
@@ -13,11 +16,12 @@ public class Program
         builder.Services
             .AddApplication()
             .AddInfrastructure(builder.Configuration);  //подключение из extension двух слоев в которых есть зависимости DI
-
+        
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer(); // нужно для Swagger
         builder.Services.AddSwaggerGen(); // подключаем Swagger
         builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(RequestResponseMapper).Assembly);
+        builder.Services.AddTransient<GlobalExceptionMiddleware>();
 
 
         //builder.Services.AddOpenApi();
@@ -31,13 +35,14 @@ public class Program
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank System API v1");
-                c.RoutePrefix = string.Empty; // чтобы Swagger открывался сразу на /
+                c.RoutePrefix = string.Empty; //автоматически открывает сваггер в корне html
                 c.EnableTryItOutByDefault(); // автоматически включает Try it out для всех методов
             });
 
         }
 
             
+        app.UseMiddleware<GlobalExceptionMiddleware>();
         //app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();

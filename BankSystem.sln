@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.Presentation", "BankSystem.Presentation\BankSystem.Presentation.csproj", "{0BA063DE-6375-4166-8680-31FA303FA1B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.Web", "BankSystem.Web\BankSystem.Web.csproj", "{0BA063DE-6375-4166-8680-31FA303FA1B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.Application", "BankSystem.Application\BankSystem.Application.csproj", "{CEA39AEA-2B4B-4C56-8FEF-DF4AAC7B3324}"
 EndProject

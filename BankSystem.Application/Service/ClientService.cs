@@ -1,5 +1,6 @@
 using AutoMapper;
 using BankSystem.Application.Dtos;
+using BankSystem.Application.Exceptions;
 using BankSystem.Application.IRepository;
 using BankSystem.Application.IService;
 using BankSystem.Domain.Entities;
@@ -19,29 +20,10 @@ public class ClientService :  IClientService
 
     public async Task<ClientDto> RegisterClientAsync(CreateClientDto createClientDto)
     {
-        // var idexist = await _clientRepository.PassportNumberExistAsync(createClientDto.PassportNumber);
-        // if (idexist) throw new Exception("Passport number already exist");
+        var idexist = await _clientRepository.PassportNumberExistAsync(createClientDto.PassportNumber);
+        if (idexist) throw new NotFoundException("Passport number already exist");
 
-        var createclient = new Client()
-        {
-            ClientId = Guid.NewGuid(),
-            //SurName = createClientDto.SurName,
-            Name = createClientDto.Name,
-            // FathersName = createClientDto.FathersName,
-            // ClientStatus = "Standard",
-            PassportNumber = createClientDto.PassportNumber,
-            // IssuedDate = createClientDto.IssuedDate,
-            // ExpiryDate = createClientDto.ExpiryDate,
-            // PlaceOfBirth = createClientDto.PlaceOfBirth,
-            // Address = createClientDto.Address,
-            // Gender = createClientDto.Gender,
-            // Nationality = createClientDto.Nationality,
-            // Email = createClientDto.Email,
-            // PhoneNumber = createClientDto.PhoneNumber,
-            // IsActive = true,
-            // UpdatedDate = DateTime.Now
-            
-        };
+        var createclient = new Client(createClientDto.Name, createClientDto.PassportNumber);
 
         await _clientRepository.CreateAsync(createclient);
         return _mapper.Map<ClientDto>(createclient);
@@ -50,8 +32,8 @@ public class ClientService :  IClientService
 
     public async Task<ClientDto> GetClientByIdAsync(Guid id)
     {
-        var clienidexist = await _clientRepository.IdExistAsync(id);
-        if (!clienidexist) throw new Exception("Id already exist");
+        var clientidexist = await _clientRepository.IdExistAsync(id);
+        if (!clientidexist) throw new NotFoundException("Id already exist");
         
         var getclientbyid = await _clientRepository.GetByIdAsync(id);
         return _mapper.Map<ClientDto>(getclientbyid);
@@ -81,43 +63,25 @@ public class ClientService :  IClientService
     //     return _mapper.Map<ClientDto>(getclientbyphone);
     // }
 
-    public async Task<ClientDto> UpdateClientAsync(CreateClientDto createClientDto)
+    public async Task<ClientDto> UpdateClientAsync(Guid clientId, string newName)
     {
-        var existclientid = await _clientRepository.PassportNumberExistAsync(createClientDto.PassportNumber);
-        if (existclientid) throw new Exception("Client doesn't exist");
-
-        var updateclient = new Client()
-        {
-            ClientId = Guid.NewGuid(),
-            //SurName = createClientDto.SurName,
-            Name = createClientDto.Name,
-            // FathersName = createClientDto.FathersName,
-            // ClientStatus = "Standard",
-            PassportNumber = createClientDto.PassportNumber,
-            // IssuedDate = createClientDto.IssuedDate,
-            // ExpiryDate = createClientDto.ExpiryDate,
-            // PlaceOfBirth = createClientDto.PlaceOfBirth,
-            // Address = createClientDto.Address,
-            // Gender = createClientDto.Gender,
-            // Nationality = createClientDto.Nationality,
-            // Email = createClientDto.Email,
-            // PhoneNumber = createClientDto.PhoneNumber,
-            // IsActive = true,
-            // UpdatedDate = DateTime.Now
-        };
+        var getclient = await _clientRepository.GetByIdAsync(clientId);
+        if(getclient == null) throw new NotFoundException("Client does not exist");
         
-        await _clientRepository.UpdateAsync(updateclient);
-        return _mapper.Map<ClientDto>(updateclient);
+        getclient.SetName(newName);
+        
+        await _clientRepository.UpdateAsync(getclient);
+        return _mapper.Map<ClientDto>(getclient);
     }
 
 
-    public async Task DeleteClientByIdAsync(Guid id)
-    {
-        var idexist = await _clientRepository.IdExistAsync(id);
-        if (!idexist) throw new Exception("Client doesn't exist");
-
-        await _clientRepository.DeleteClientByIdAsync(id);
-    }
+    // public async Task DeleteClientByIdAsync(Guid id)
+    // {
+    //     var idexist = await _clientRepository.IdExistAsync(id);
+    //     if (!idexist) throw new Exception("Client doesn't exist");
+    //
+    //     await _clientRepository.DeleteClientByIdAsync(id);
+    // }
     
 
     // public async Task DeleteClientByEmailAsync(string email)

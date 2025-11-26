@@ -29,20 +29,21 @@ public class ClientRepository : IClientRepository
 
     public async Task DeleteClientByIdAsync(Guid id)
     {
-        _bankSystemDbContext.Clients.Remove(_bankSystemDbContext.Clients.FirstOrDefault(i => i != null && i.ClientId == id));
+        var client = await GetByIdAsync(id);
+        if (client != null)
+            _bankSystemDbContext.Remove(client);
         await _bankSystemDbContext.SaveChangesAsync();
     }
 
     // public Task DeleteClientByEmailAsync(string email)
-    // {
-    //     _bankSystemDbContext.Clients.Remove(_bankSystemDbContext.Clients.FirstOrDefault(i => i.Email == email));
-    //     return _bankSystemDbContext.SaveChangesAsync();
+    // { 
+    //     var emailexist =  await Ge
     // }
 
-
+    
     public Task UpdateAsync(Client? client)
     {
-        _bankSystemDbContext.Update(client);
+        _bankSystemDbContext.Clients.Update(client);
         return _bankSystemDbContext.SaveChangesAsync();
     }
 
@@ -51,10 +52,24 @@ public class ClientRepository : IClientRepository
         return await _bankSystemDbContext.Clients.FirstOrDefaultAsync(g => g.ClientId == id);
     }
 
-    public async Task<List<Client>> GetAllAsync()
+    public async Task<IEnumerable<Client>> GetAllAsync()
     {
         return await _bankSystemDbContext.Clients.ToListAsync();
     }
+
+
+    public async Task<Client?> GetByPassportNumberAsync(string passportNumber)
+    {
+        return await _bankSystemDbContext.Clients.FirstOrDefaultAsync(g => g.PassportNumber == passportNumber);
+    }
+
+    public IAsyncEnumerable<Client> GetAllForCsvAsync()
+    {
+        return _bankSystemDbContext.Clients.AsAsyncEnumerable();
+        //  AsAsyncEnumerable() → позволяет перебирать данные из базы по мере их считывания, а не загружать весь список сразу в память.
+        //  Это особенно важно, если клиентов миллионы.
+    }
+
 
     public async Task SaveChangesAsync()
     {

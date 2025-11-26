@@ -2,6 +2,7 @@ namespace BankSystem.Application.Dtos;
 
 public class ClientDto
 {
+    public Guid ClientId { get; set; }
     //public required string SurName { get; set; } 
     public required string Name { get; set; }
     // public required string FathersName { get; set; }

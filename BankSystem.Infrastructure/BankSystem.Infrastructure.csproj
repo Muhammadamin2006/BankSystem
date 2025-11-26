@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="EntityTypeConfiguration\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 

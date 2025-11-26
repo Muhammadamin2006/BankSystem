@@ -1,7 +1,8 @@
-namespace BankSystem.Presentation.ViewModels;
+namespace BankSystem.Web.ResponseModels;
 
 public class ResponseCreateClient
 {
+    public Guid ClientId { get; set; }
     //public required string SurName { get; set; } 
     public required string Name { get; set; }
     //public required string FathersName { get; set; }

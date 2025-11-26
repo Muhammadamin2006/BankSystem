@@ -1,11 +1,11 @@
 using AutoMapper;
 using BankSystem.Application.Dtos;
 using BankSystem.Application.IService;
-using BankSystem.Presentation.RequestModels;
-using BankSystem.Presentation.ViewModels;
+using BankSystem.Web.RequestModels;
+using BankSystem.Web.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankSystem.Presentation.Controllers;
+namespace BankSystem.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -22,6 +22,7 @@ public class ClientController : ControllerBase
     }
     
     
+    
     [HttpPost]
     public async Task<ActionResult<ResponseCreateClient>> CreateClient(RequestCreateClient createClientrequest)
     {
@@ -36,6 +37,20 @@ public class ClientController : ControllerBase
         var getclientbyid = await _clientService.GetClientByIdAsync(id);
         return Ok(_mapper.Map<ResponseCreateClient>(getclientbyid));
     }
-    
-    
+
+    [HttpPut]
+    public async Task<ActionResult<ResponseCreateClient>> UpdateClient(Guid clientId, string newName)
+    {
+        var updateClient = await _clientService.UpdateClientAsync(clientId, newName);
+        return Ok(_mapper.Map<ResponseCreateClient>(updateClient));
+    }
+
+    [HttpGet(Name = "GetAllClients")]
+    public async Task<ActionResult<IEnumerable<ResponseCreateClient>>> GetAllClients()
+    {
+        var clients = await _clientService.GetAllClientsAsync();
+        return Ok(_mapper.Map<IEnumerable<ResponseCreateClient>>(clients));
+    }
+
+
 }

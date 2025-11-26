@@ -12,8 +12,8 @@ public interface IClientService
     // Task<ClientDto> GetClientByEmailAsync(string email);
     // Task<ClientDto> GetClientsByPhoneNumberAsync(string phoneNumber);
 
-    Task<ClientDto> UpdateClientAsync(CreateClientDto createClientDto);
+    Task<ClientDto> UpdateClientAsync(Guid clientId, string newName);
     
-    Task DeleteClientByIdAsync(Guid id);
+    //Task DeleteClientByIdAsync(Guid id);
     //Task DeleteClientByEmailAsync(string email);
 }

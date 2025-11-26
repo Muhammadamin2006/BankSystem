@@ -1,10 +1,10 @@
 using AutoMapper;
 using BankSystem.Application.Dtos;
 using BankSystem.Domain.Entities;
-using BankSystem.Presentation.RequestModels;
-using BankSystem.Presentation.ViewModels;
+using BankSystem.Web.RequestModels;
+using BankSystem.Web.ResponseModels;
 
-namespace BankSystem.Presentation.Mappers;
+namespace BankSystem.Web.Mappers;
 
 public class ClientMappers : Profile
 {

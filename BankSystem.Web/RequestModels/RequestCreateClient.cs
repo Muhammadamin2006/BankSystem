@@ -1,4 +1,4 @@
-namespace BankSystem.Presentation.RequestModels;
+namespace BankSystem.Web.RequestModels;
 
 public class RequestCreateClient
 {
